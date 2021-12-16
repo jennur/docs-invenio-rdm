@@ -1,0 +1,46 @@
+{% extends "features_base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="../../stylesheets/features.css" />
+{% endblock %}
+
+{% block content %}
+<h1 class="feature-headline-wrapper">
+    <a href="/features/" class="headline-breadcrumb">Features</a>
+
+    <span class="feature-headline">
+        <span class="feature-icon">
+            {% set icon = "fontawesome/solid/{}".format(page.meta.icon) %}
+            {% include ".icons/" ~ icon ~ ".svg" %}
+        </span>
+        <span>{{ page.title }}</span>
+    </span>
+</h1>
+
+<nav class="features-menu">
+    {% for item in nav %}
+        {% if item.title == "Features" %}
+            {% for sub_page in item.children %}
+                <a class="menu-item {{'current-page' if sub_page.title == page.title}}" 
+                   href="/{{sub_page.url}}"
+                >
+                <span class="feature-icon">
+                    {% set icon = "fontawesome/solid/{}".format(sub_page.meta.icon) %}
+                    {% include ".icons/" ~ icon ~ ".svg" %}
+                </span>
+                    
+                <span class="feature-title">
+                    {{ sub_page.title }}
+                </span>
+                </a>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+</nav>
+
+<div class="feature-details">
+    {{ page.content }}
+</div>
+
+{% endblock %}

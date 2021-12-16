@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="../stylesheets/features.css" />
+{% endblock %}
+
+
+{% block content %}
+  <div class="header">
+    {{page.content}}
+  </div>
+
+  <div class="features">
+    {% for item in nav %}
+        {% if item.title == "Features" %}
+
+            {% for sub_page in item.children %}
+              {% if sub_page.title != "Overview" %}
+                {{ feature_box(sub_page.title, sub_page.url, sub_page.meta.summary, sub_page.meta.icon) }}
+              {% endif %}
+            {% endfor %}
+
+        {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}
+
+
+{% macro feature_box(title, url, content, icon)%}
+  <a class="feature" href="/{{url}}">
+    <span class="feature-icon">
+      {% set icon = "fontawesome/solid/{}".format(icon) %}
+      {% include ".icons/" ~ icon ~ ".svg" %}
+    </span>
+    <h2>{{ title }}</h2>
+    <p>{{ content }}</p>
+    <div class="learn-more"> Learn more ❯ </div>
+  </a>
+{% endmacro %}
